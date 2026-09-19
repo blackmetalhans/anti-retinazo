@@ -1,75 +1,127 @@
-# 🛡️ Anti-Retinazo: El filtro de luz azul sin mierda
+# 🩸 Anti-Retinazo
 
-> *"¿Por qué mierda una aplicación para cambiar el color de la pantalla necesita 350 MB de RAM, un Chromium incrustado, 4 hilos de telemetría y un demonio en segundo plano?"*
-> — Cualquier ser humano con más de dos neuronas funcionales.
-
-Bienvenido a **Anti-Retinazo**. Una herramienta que hace **exactamente una cosa** y no te roba recursos como si fuera un minero de criptomonedas de Europa del Este.
+> *"Look at that subtle 12-megabyte resident set size. The tasteful monotonicity of the hardware look-up table. Oh, my God. It doesn't even spawn a node_modules folder."*
 
 ---
 
-## 🧐 ¿Por qué existe esto?
-
-El software moderno está roto. Si buscas un filtro de luz azul hoy en día te encuentras con dos tragedias:
-1. **La "Luz Nocturna" de Windows:** Funciona cuando quiere, se descalibra con alt-tab, se apaga sola a las 3 AM para quemarte las córneas con 6500K a traición, y requiere rezarle a 4 servicios del registro de Windows.
-2. **Aplicaciones de terceros en Electron / Webview:** Pesan 90 MB en el disco, consumen 400 MB de RAM para mostrar un slider y crean una ventana transparente que laguea el cursor en los juegos y te bota 15 FPS en cualquier cosa que abras.
-
-**Anti-Retinazo** manda todo eso al carajo.
+## Language / Idioma
+* [🇬🇧 English Version](#-english-overview)
+* [🇨🇱 Versión en Español](#-descripción-en-español)
+* [📐 Deep Architecture / Especificación Arquitectónica](ARCHITECTURE.md)
 
 ---
 
-## ⚡ Especificaciones Técnicas (Zero-Bullshit)
+# 🇬🇧 English Overview
 
-| Métrica | Lo que te meten otras apps | Anti-Retinazo |
+### The Problem with Mediocrity
+
+In the evening, before I sit down to review my quarterly portfolios, I observe how standard computer monitors emit a grotesque, hyper-saturated 450-nanometer blue wavelength. It ravages the melatonin receptors of the human eye. 
+
+Naturally, the software industry's response to this biological reality is an abomination.
+
+If you download an open-source blue light filter today, you are greeted by an **Electron bundle**:
+* **350 MB of RAM** consumed by three separate Chromium child processes just to paint an amber square.
+* **45 MB installer** accompanied by eight layers of automated telemetry reporting your keystrokes to an AWS bucket in us-east-1.
+* A transparent layered window (`WS_EX_LAYERED`) that destroys desktop composition, causes input lag in high-refresh-rate monitors, and makes blacks look like dried mud.
+* Maintained by people who use the word *"alignment"* unironically in sprint retrospectives.
+
+I cannot tolerate inefficiency. It offends my sensibilities.
+
+---
+
+### The Solution: Anti-Retinazo
+
+**Anti-Retinazo** does not negotiate with corporate bloat. It does not possess a splash screen. It does not ask for your email address. It does not contain analytics.
+
+It communicates directly with the **Windows Graphics Device Interface (`gdi32.dll`)** via `SetDeviceGammaRamp`. It injects a pure, mathematically verified Look-Up Table (LUT) directly into your graphics adapter's DAC hardware. 
+
+| Metric | Typical Corporate Utility | Anti-Retinazo |
 | :--- | :--- | :--- |
-| **Consumo de RAM** | ~180 MB - 450 MB | **~12 a 14 MB** (y Windows la comprime a <5MB minimizado) |
-| **Consumo de CPU** | 1.5% - 5.0% permanente | **0.0%** (Literalmente cero) |
-| **Instalador** | 80 MB `.exe` con telemetry | **0 bytes** (Es código puro, clonar y correr) |
-| **Dependencias externas** | `npm install` de 1.2 GB o 8 librerías de `pip` | **Cero**. Solo librerías estándar de Python (`ctypes`, `tkinter`) |
-| **Impacto en Juegos / Fullscreen** | Drops de FPS, clics perdidos | **Ninguno**. Modifica la LUT en hardware, no crea capas invisibles |
+| **Memory Footprint (RSS)** | 250 MB – 450 MB | **~12 to 14 MB** *(< 5 MB minimized)* |
+| **CPU Utilization** | 1.2% – 4.5% continuous polling | **0.000%** *(Hardware GPU scanout)* |
+| **Disk Overhead** | 80 MB+ Node runtime | **Zero dependencies** *(Standard library Python)* |
+| **Overlay Artifacts** | Degrades FPS, intercepts mouse clicks | **None**. Native DAC hardware level |
+| **Telemetry / Tracking** | Segment, Mixpanel, Datadog, Google Analytics | **Zero. Nada. Absolutely none.** |
 
 ---
 
-## 🔬 ¿Cómo funciona por debajo?
+### 🎛️ Operation & Controls
 
-En vez de poner una capa semitransparente color meado encima de tu pantalla (lo que hace el 90% de los scripts ordinarios), **Anti-Retinazo** habla directamente con el subsistema gráfico de Windows (**Win32 GDI / `gdi32.dll`**) mediante `SetDeviceGammaRamp`.
+1. **One-Click Execution:**
+   Double-click [`iniciar.bat`](iniciar.bat). It invokes `pythonw.exe` silently in the background. No unsightly command prompt window flashing across your tailored desktop wallpaper.
+2. **Instant Binary Toggle:**
+   The primary card provides a high-contrast switch: `[ ⏻ ACTIVAR FILTRO ]` $\leftrightarrow$ `[ ✓ FILTRO ACTIVO ]`. One click. Instantaneous transition.
+3. **Continuous Real-Time Slider:**
+   A seamless $0\% \to 100\%$ scale adjusting the color temperature from crisp daylight ($6500\text{ K}$) down to intimate candle-glow ($2400\text{ K}$).
+4. **Discrete Presets:**
+   * `☀️ Day (0%)` — Default factory calibration.
+   * `🌤️ Afternoon (35%)` — Soft daylight filtering for sustained focus.
+   * `🌙 Night (65%)` — Standard nocturnal eye-strain elimination.
+   * `🕯️ Candle (85%)` — Deep amber tone for late-night hyperfocus sessions.
+5. **Polite Lifecycle Teardown:**
+   Closing the window (`X`) automatically restores your monitor's original calibration and saves your preferred intensity to `config.json`. If you want to keep the filter running silently with zero resource cost, simply **minimize the window (`_`)**.
+6. **Emergency Reset:**
+   If you ever kill the process with brute-force task managers, simply run [`restaurar_pantalla.bat`](restaurar_pantalla.bat). Your hardware LUT returns to standard linear curves within 20 milliseconds.
 
-Le inyecta una matriz Look-Up Table (LUT) matemática de 3 canales $\times$ 256 valores (16-bit) directamente al driver de video de tu tarjeta gráfica.
-* El canal **Rojo** se mantiene estable.
-* El canal **Verde** se calcula con una suave curva logarítmica para evitar que tu pantalla parezca un vómito magenta.
-* El canal **Azul** se atenúa progresivamente hasta un 80% según el slider.
-* **Resultado:** Hardware puro. La GPU hace la mezcla en el barrido de salida. Cero cálculo por software.
+---
+---
+
+# 🇨🇱 Descripción en Español
+
+### El Problema de la Mediocridad Corporativa
+
+Al caer la noche, antes de revisar mis portafolios de inversión o ponerme a tocar líneas complejas de bajo, observo cómo los monitores convencionales vomitan una grotesca longitud de onda azul de 450 nanómetros que destruye las células ganglionares de la retina.
+
+La respuesta de la industria del software a este problema fisiológico es una aberración digna de desprecio.
+
+Cualquier filtro de pantalla promedio que encuentres hoy en internet viene empaquetado en **Electron**:
+* **350 MB a 500 MB de RAM** desperdiciados en tres procesos aislados de Chromium sólo para mover un color.
+* Un instalador inflado de 60 MB lleno de telemetría inútil para que un Product Manager justifique su sueldo en el próximo sprint.
+* Una ventana transparente superpuesta (`WS_EX_LAYERED`) que te roba 20 FPS en cualquier juego, introduce latencia en el mouse y tiñe los negros con un tono a barro podrido.
+* Hecho por gente que pasa más tiempo en ceremonias de Scrum y hablando de "cultura de empresa" que escribiendo código optimizado.
+
+No tolero el código mediocre. Me parece una falta de respeto al silicio.
 
 ---
 
-## 🕹️ Cómo se usa
+### La Solución: Anti-Retinazo
 
-### 1. Iniciar sin consola negra
-Haz doble clic en:
-```text
-iniciar.bat
-```
-*(Lanza `pythonw.exe app.pyw` en segundo plano silencioso, sin ventanas de terminal estorbando)*.
+**Anti-Retinazo** no negocia con la basura corporativa. No tiene pantalla de carga, no te pide tu correo, no tiene telemetría y no necesita una sola dependencia externa de `npm` ni de `pip`.
 
-### 2. Controles
-* **Un Clic:** Botón gigante `[ ⏻ ACTIVAR / APAGAR ]`.
-* **Slider en Vivo:** Muévelo y siente la calidez en tiempo real, desde luz de día (6500K) hasta modo "vela medieval" (2400K).
-* **Presets:** Cuatro botones directos:
-  * `☀️ Día (0%)` -> Neutral de fábrica.
-  * `🌤️ Tarde (35%)` -> Para programar 10 horas sin terminar con dolor de cabeza.
-  * `🌙 Noche (65%)` -> Modo noche estándar.
-  * `🕯️ Velas (85%)` -> Cuando son las 4 AM y la luz azul es tu peor enemigo.
-* **Segundo Plano:** Minimiza la ventana (`_`) y sigue con tu vida.
-* **Cierre Seguro:** Al presionar la `X`, restaura tu pantalla a su estado original para que no te quedes ciego si reinicias el monitor.
+Interactúa directo con la API nativa de **Windows GDI (`gdi32.dll`)** mediante `SetDeviceGammaRamp`. Le inyecta una matriz Look-Up Table (LUT) de 16-bit calculada matemáticamente directo al hardware de tu tarjeta gráfica.
+
+| Métrica | La basura habitual de terceros | Anti-Retinazo |
+| :--- | :--- | :--- |
+| **Consumo de Memoria (RAM)** | 250 MB – 500 MB | **~12 a 14 MB** *(< 5 MB si lo minimizas)* |
+| **Consumo de CPU** | 1.5% – 4% en segundo plano | **0.000%** *(El rasterizado lo hace la GPU)* |
+| **Tamaño en Disco** | 100 MB con runtime de Node | **Cero dependencias** *(Python estándar)* |
+| **Interferencia en Juegos** | Caída de FPS, tirones, clics perdidos | **Cero**. Modifica la LUT en hardware |
+| **Telemetría y Rastreo** | Google Analytics, Sentry, Telemetry | **Cero. Absolutamente nada.** |
 
 ---
 
-## 🚨 Reset de Emergencia
+### 🎛️ Operación y Controles
 
-Si eres de los que mata procesos a lo bestia con `taskkill /f /im python.exe`:
-No te preocupes. Tienes [`restaurar_pantalla.bat`](file:///c:/Users/Numpay/Desktop/Codes/filtro-luz-azul/restaurar_pantalla.bat) que resetea la LUT de la tarjeta gráfica a 6500K en medio milisegundo.
+1. **Lanzamiento Silencioso en 1 Clic:**
+   Haz doble clic en [`iniciar.bat`](iniciar.bat). Se ejecuta directo a través de `pythonw.exe` sin mostrar ninguna ventana negra de consola.
+2. **Switch Instantáneo:**
+   Botón prominente de activación rápida: `[ ⏻ ACTIVAR FILTRO ]` $\leftrightarrow$ `[ ✓ FILTRO ACTIVO ]`. Un toque y cambia.
+3. **Slider Continuo en Tiempo Real:**
+   Control deslizante de $0\% \to 100\%$ que ajusta la calidez desde $6500\text{ K}$ (luz natural) hasta $2400\text{ K}$ (modo vela cálida) sin cortes ni retrasos.
+4. **Perfiles de 1 Toque:**
+   * `☀️ Día (0%)` — Calibración neutral limpia.
+   * `🌤️ Tarde (35%)` — Filtro suave para largas jornadas de lectura o código.
+   * `🌙 Noche (65%)` — Modo noche para no fatigar la vista.
+   * `🕯️ Velas (85%)` — Ámbar profundo anti-insomnio para trabajar de madrugada.
+5. **Cierre Impecable:**
+   Al cerrar la ventana (`X`), el programa guarda tu preferencia en `config.json` y restaura automáticamente el monitor a su color original. Si quieres dejarlo activo de fondo sin que gaste nada, **solo minimiza la ventana (`_`)**.
+6. **Reset de Emergencia:**
+   Si cierras el proceso a la fuerza con el Administrador de Tareas, haz doble clic en [`restaurar_pantalla.bat`](restaurar_pantalla.bat) y la LUT de tu tarjeta gráfica volverá a 6500K en menos de 20 milisegundos.
 
 ---
 
-## 📜 Licencia
+## 📜 Licencia / License
 
-MIT. Haz lo que se te cante con el código, solo no le metas Electron por favor.
+MIT License. Copyright (c) 2026 Hans Soriano.
+
+Haz lo que quieras con el código. La única condición moral es que jamás lo conviertas en una aplicación de Electron.
